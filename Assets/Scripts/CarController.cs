@@ -7,8 +7,13 @@ public class CarController : MonoBehaviour
 {
     [SerializeField]
     float maxSpeed;
+    // Getter
+    public float MaxSpeed => maxSpeed;
     [SerializeField]
     Rigidbody rb;
+    // Getter
+    public Rigidbody Rb => rb;
+
     [SerializeField]
     float forwardAcceleration, reverseAcceleration;
     [SerializeField]
@@ -50,16 +55,16 @@ public class CarController : MonoBehaviour
     // Think of ways to stop or massively reduce the motion perpendicular to the tyres
     void FixedUpdate()
     {
-        // Get the velocity of the Rigidbody
-        Vector3 velocity = rb.velocity;
+        //// Prevent lateral movement
+        //// Get the velocity of the Rigidbody
+        //Vector3 velocity = rb.velocity;
 
-        // Calculate the component of the velocity along transform.right
-        Vector3 rightDirection = transform.right;
-        Vector3 velocityAlongRight = Vector3.Dot(velocity, rightDirection) * rightDirection;
+        //// Calculate the component of the velocity along transform.right
+        //Vector3 rightDirection = transform.right;
+        //Vector3 velocityAlongRight = Vector3.Dot(velocity, rightDirection) * rightDirection;
 
-        // Subtract the velocity component along transform.right from the Rigidbody's velocity
-        rb.velocity = velocity - velocityAlongRight;
-
+        //// Subtract the velocity component along transform.right from the Rigidbody's velocity
+        //rb.velocity = velocity - velocityAlongRight;
 
         grounded = false;
         Vector3 targetNormal = transform.rotation.eulerAngles;
@@ -91,6 +96,15 @@ public class CarController : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
+
+        transform.position = rb.position;
+        float verticalInput = Input.GetAxis("Vertical");
+
+        if (grounded && verticalInput != 0)
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles +
+                (Time.fixedDeltaTime * turnStrength * turnInput * Math.Sign(verticalInput) * (rb.velocity.magnitude / maxSpeed) * Vector3.up));
+        }
     }
 
     void Update()
@@ -115,8 +129,6 @@ public class CarController : MonoBehaviour
 
         leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, transform.localRotation.eulerAngles.z);
         rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, rightFrontWheel.localRotation.eulerAngles.z);
-
-        transform.position = rb.position;
 
         // Particle emission
         emissionRate = Mathf.MoveTowards(emissionRate, 0f, emissionFadeSpeed * Time.deltaTime);
