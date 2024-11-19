@@ -24,7 +24,7 @@ public class CarController : MonoBehaviour
     float gravityMod;
 
     float forwardForce;
-    float turnInput;
+    float turnInput, verticalInput;
 
     bool grounded;
     [SerializeField]
@@ -44,6 +44,17 @@ public class CarController : MonoBehaviour
     [SerializeField]
     float maxEmission, emissionFadeSpeed;
     float emissionRate;
+
+    [SerializeField]
+    AudioSource engineSound;
+    [SerializeField]
+    float minEnginePitch, maxEnginePitch;
+    [SerializeField]
+    AudioSource skidSound;
+    [SerializeField]
+    float skidSoundFadeSpeed;
+    [SerializeField]
+    float skidThreshold;
 
     void Start()
     {
@@ -98,7 +109,6 @@ public class CarController : MonoBehaviour
         }
 
         transform.position = rb.position;
-        float verticalInput = Input.GetAxis("Vertical");
 
         if (grounded && verticalInput != 0)
         {
@@ -109,7 +119,7 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        float verticalInput = Input.GetAxis("Vertical");
+        verticalInput = Input.GetAxis("Vertical");
         if (verticalInput > 0)
         {
             forwardForce = verticalInput * forwardAcceleration;
@@ -133,7 +143,7 @@ public class CarController : MonoBehaviour
         // Particle emission
         emissionRate = Mathf.MoveTowards(emissionRate, 0f, emissionFadeSpeed * Time.deltaTime);
 
-        if (grounded && (Math.Abs(turnInput) > 0.5 || rb.velocity.magnitude < maxSpeed / 2))
+        if (grounded && (Math.Abs(turnInput) > skidThreshold || rb.velocity.magnitude < maxSpeed / 2))
         {
             emissionRate = maxEmission;
         }
@@ -143,6 +153,19 @@ public class CarController : MonoBehaviour
             ParticleSystem.EmissionModule emission = dustTrails[i].emission;
             if (rb.velocity.magnitude <= 0.5f) emissionRate = 0;
             emission.rateOverTime = emissionRate;
+        }
+
+        // Audio
+        engineSound.pitch = Mathf.Lerp(minEnginePitch, maxEnginePitch, rb.velocity.magnitude / maxSpeed);
+        if (grounded && Math.Abs(turnInput) > skidThreshold && rb.velocity.magnitude > maxSpeed / 2)
+        {
+            skidSound.volume = Mathf.MoveTowards(skidSound.volume, 1f, skidSoundFadeSpeed * Time.deltaTime);
+            if (!skidSound.isPlaying) skidSound.Play();
+        }
+        else
+        {
+            skidSound.volume = Mathf.MoveTowards(skidSound.volume, 0f, skidSoundFadeSpeed * Time.deltaTime);
+            if (skidSound.volume < 0.1f) skidSound.Stop();
         }
     }
 }
