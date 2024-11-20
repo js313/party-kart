@@ -56,8 +56,12 @@ public class CarController : MonoBehaviour
     [SerializeField]
     float skidThreshold;
 
+    int nextCheckPoint, currentLap;
+
     void Start()
     {
+        currentLap = -1;
+        nextCheckPoint = 0;
         rb.transform.parent = null;
     }
 
@@ -166,6 +170,23 @@ public class CarController : MonoBehaviour
         {
             skidSound.volume = Mathf.MoveTowards(skidSound.volume, 0f, skidSoundFadeSpeed * Time.deltaTime);
             if (skidSound.volume < 0.1f) skidSound.Stop();
+        }
+    }
+
+    public void CheckPointHit(int hitCheckPointIndex)
+    {
+        if (nextCheckPoint == hitCheckPointIndex)
+        {
+            if (nextCheckPoint == 0)
+            {
+                currentLap++;
+            }
+            nextCheckPoint++;
+
+            if (nextCheckPoint == RaceManager.instance.checkPointsCount)
+            {
+                nextCheckPoint = 0;
+            }
         }
     }
 }
