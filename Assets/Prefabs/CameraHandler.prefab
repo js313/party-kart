@@ -170,8 +170,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 2388695909235935259, guid: 2910a882a4770e041ba37ba801d95aeb, type: 3}
+  m_Follow: {fileID: 2388695909235935259, guid: 2910a882a4770e041ba37ba801d95aeb, type: 3}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -221,7 +221,8 @@ Transform:
   m_LocalPosition: {x: 14.56, y: 11.67, z: 1.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2267536573071970782}
   m_Father: {fileID: 5936200990944863681}
   m_LocalEulerAnglesHint: {x: 36.911, y: -66.539, z: 0.953}
 --- !u!20 &2146644566118113049
@@ -290,6 +291,38 @@ MonoBehaviour:
   car: {fileID: 0}
   minDistance: 15
   maxDistance: 30
+  rememberRelativePosFromCar: {fileID: 2267536573071970782}
+--- !u!1 &6572703920736634496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2267536573071970782}
+  m_Layer: 0
+  m_Name: RememberRelPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2267536573071970782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6572703920736634496}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.26034546, y: 0.5225454, z: -0.18024921, w: 0.79162925}
+  m_LocalPosition: {x: -2.3750992, y: 0.0215621, z: 18.575089}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4743220463912710143}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6899213646181680858
 GameObject:
   m_ObjectHideFlags: 0

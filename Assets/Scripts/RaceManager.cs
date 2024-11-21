@@ -6,7 +6,10 @@ public class RaceManager : MonoBehaviour
 {
     [SerializeField]
     CheckPoint[] checkPoints;
+    [HideInInspector]
     public int checkPointsCount;
+
+    public int totalLaps;
 
     public static RaceManager instance;
 
@@ -25,10 +28,5 @@ public class RaceManager : MonoBehaviour
         {
             checkPoints[i].CheckPointIndex = i;
         }
-    }
-
-    void Update()
-    {
-
     }
 }

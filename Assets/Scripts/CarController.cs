@@ -57,10 +57,11 @@ public class CarController : MonoBehaviour
     float skidThreshold;
 
     int nextCheckPoint, currentLap;
+    float currentLapTime = 0f, bestLapTime = float.PositiveInfinity;
 
     void Start()
     {
-        currentLap = -1;
+        currentLap = 0;
         nextCheckPoint = 0;
         rb.transform.parent = null;
     }
@@ -123,6 +124,9 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
+        currentLapTime += Time.deltaTime;
+        UIManager.instance.SetLapTime(currentLapTime, isCurrentLap: true);
+
         verticalInput = Input.GetAxis("Vertical");
         if (verticalInput > 0)
         {
@@ -179,7 +183,7 @@ public class CarController : MonoBehaviour
         {
             if (nextCheckPoint == 0)
             {
-                currentLap++;
+                LapCompleted();
             }
             nextCheckPoint++;
 
@@ -188,5 +192,21 @@ public class CarController : MonoBehaviour
                 nextCheckPoint = 0;
             }
         }
+    }
+
+    void LapCompleted()
+    {
+        currentLap++;
+        if (currentLapTime < bestLapTime && currentLap > 1)
+        {
+            bestLapTime = currentLapTime;
+        }
+        UIManager.instance.SetLapCounter(currentLap);
+
+        if (bestLapTime != float.PositiveInfinity)
+        {
+            UIManager.instance.SetLapTime(bestLapTime, isCurrentLap: false);
+        }
+        currentLapTime = 0f;
     }
 }

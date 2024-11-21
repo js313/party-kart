@@ -12,10 +12,12 @@ public class CameraController : MonoBehaviour
     float minDistance, maxDistance;
     float activeDistance;
 
+    [SerializeField]
+    Transform rememberRelativePosFromCar;
 
     void Start()
     {
-        offset = transform.position - car.transform.position;
+        offset = transform.position - rememberRelativePosFromCar.position;
         activeDistance = minDistance;
     }
 
