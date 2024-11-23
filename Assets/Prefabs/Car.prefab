@@ -55,7 +55,7 @@ MonoBehaviour:
   rb: {fileID: 8801668953058249532}
   forwardAcceleration: 8000
   reverseAcceleration: 4000
-  turnStrength: 90
+  turnStrength: 180
   dragOnGround: 3
   dragInAir: 0
   gravityMod: 1000
@@ -81,6 +81,11 @@ MonoBehaviour:
   skidSound: {fileID: 2383925129002043058}
   skidSoundFadeSpeed: 10
   skidThreshold: 0.7
+  isComp: 0
+  compPointRange: 5
+  compPointVariance: 3
+  compMaxTurnAngle: 30
+  targetPointIndex: 0
 --- !u!81 &8246109708300787794
 AudioListener:
   m_ObjectHideFlags: 0

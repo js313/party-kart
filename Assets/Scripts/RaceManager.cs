@@ -29,4 +29,9 @@ public class RaceManager : MonoBehaviour
             checkPoints[i].CheckPointIndex = i;
         }
     }
+
+    public Vector3 GetCheckPointPosition(int index)
+    {
+        return checkPoints[index].transform.position;
+    }
 }

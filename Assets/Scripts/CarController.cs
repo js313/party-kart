@@ -59,11 +59,29 @@ public class CarController : MonoBehaviour
     int nextCheckPoint, currentLap;
     float currentLapTime = 0f, bestLapTime = float.PositiveInfinity;
 
+    [SerializeField]
+    bool isComp;
+    [SerializeField]
+    float compPointRange = 5f, compPointVariance = 1f;
+    [SerializeField]
+    float compMaxTurnAngle = 15f, compAcceleration = 5f, compSpeedInputWhileTurning = 0.8f;
+    float compSpeedInput = 0, compRandomSpeedMod = 1f;
+
+    [SerializeField]
+    int targetPointIndex = 0;
+    Vector3 targetPoint;
+
     void Start()
     {
         currentLap = 0;
         nextCheckPoint = 0;
         rb.transform.parent = null;
+        if (isComp)
+        {
+            compSpeedInput = 1f;
+            targetPoint = RandomiseTarget(RaceManager.instance.GetCheckPointPosition(targetPointIndex), compPointVariance);
+            compRandomSpeedMod = UnityEngine.Random.Range(0.9f, 1.3f);
+        }
     }
 
     // Quaternions are fuckin hard
@@ -114,31 +132,115 @@ public class CarController : MonoBehaviour
         }
 
         transform.position = rb.position;
-
-        if (grounded && verticalInput != 0)
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles +
-                (Time.fixedDeltaTime * turnStrength * turnInput * Math.Sign(verticalInput) * (rb.velocity.magnitude / maxSpeed) * Vector3.up));
-        }
     }
 
     void Update()
     {
         currentLapTime += Time.deltaTime;
-        UIManager.instance.SetLapTime(currentLapTime, isCurrentLap: true);
 
-        verticalInput = Input.GetAxis("Vertical");
-        if (verticalInput > 0)
+        if (!isComp)
         {
-            forwardForce = verticalInput * forwardAcceleration;
+            UIManager.instance.SetLapTime(currentLapTime, isCurrentLap: true);
+
+            verticalInput = Input.GetAxis("Vertical");
+            if (verticalInput > 0)
+            {
+                forwardForce = verticalInput * forwardAcceleration;
+            }
+            else
+            {
+                forwardForce = verticalInput * reverseAcceleration;
+            }
+
+            turnInput = Input.GetAxis("Horizontal");
         }
         else
         {
-            forwardForce = verticalInput * reverseAcceleration;
+            if (Vector3.SqrMagnitude(transform.position - targetPoint) <= compPointRange * compPointRange)
+            {
+                TargetReached();
+            }
+
+            Vector3 targetDir = targetPoint - transform.position;
+            float targetDirAngle = Vector3.Angle(transform.forward, targetDir); // Can use SignedAngle function too.
+
+            // Use SignedAngle instead of doing this
+            if (Vector3.Cross(transform.forward, targetDir).y < 0)
+            {
+                targetDirAngle = -targetDirAngle;
+            }
+
+            turnInput = Mathf.Clamp(targetDirAngle / compMaxTurnAngle, -1f, 1f); // Similar to Input.getAxis("Horizontal")
+
+            if (targetDirAngle <= compAcceleration)
+            {
+                compSpeedInput = Mathf.MoveTowards(compSpeedInput, 1f, compAcceleration);
+            }
+            else
+            {
+                compSpeedInput = Mathf.MoveTowards(compSpeedInput, compSpeedInputWhileTurning, compAcceleration);
+            }
+
+            verticalInput = compSpeedInput;
+            forwardForce = compSpeedInput * forwardAcceleration * compRandomSpeedMod;
         }
 
-        turnInput = Input.GetAxis("Horizontal");
+        SharedFunctions();
+    }
 
+    public void CheckPointHit(int hitCheckPointIndex)
+    {
+        if (nextCheckPoint == hitCheckPointIndex)
+        {
+            if (nextCheckPoint == 0)
+            {
+                LapCompleted();
+            }
+            nextCheckPoint++;
+
+            if (nextCheckPoint == RaceManager.instance.checkPointsCount)
+            {
+                nextCheckPoint = 0;
+            }
+
+            if (isComp)
+            {
+                //TargetReached();    // Cars running into obstacles, so turned it off for now
+            }
+        }
+    }
+
+    public void TargetReached()
+    {
+        targetPointIndex = (targetPointIndex + 1) % RaceManager.instance.checkPointsCount;
+        targetPoint = RandomiseTarget(RaceManager.instance.GetCheckPointPosition(targetPointIndex), compPointVariance);
+    }
+
+    Vector3 RandomiseTarget(Vector3 point, float targetVariance)
+    {
+        point += new Vector3(UnityEngine.Random.Range(-targetVariance, targetVariance), 0, UnityEngine.Random.Range(-targetVariance, targetVariance));
+        return point;
+    }
+
+    void LapCompleted()
+    {
+        currentLap++;
+        if (currentLapTime < bestLapTime && currentLap > 1)
+        {
+            bestLapTime = currentLapTime;
+        }
+        if (!isComp) UIManager.instance.SetLapCounter(currentLap);
+
+        if (!isComp && bestLapTime != float.PositiveInfinity)
+        {
+            UIManager.instance.SetLapTime(bestLapTime, isCurrentLap: false);
+        }
+        currentLapTime = 0f;
+    }
+
+    void SharedFunctions()
+    {
+        // Turn
         if (grounded && verticalInput != 0)
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles +
@@ -175,38 +277,5 @@ public class CarController : MonoBehaviour
             skidSound.volume = Mathf.MoveTowards(skidSound.volume, 0f, skidSoundFadeSpeed * Time.deltaTime);
             if (skidSound.volume < 0.1f) skidSound.Stop();
         }
-    }
-
-    public void CheckPointHit(int hitCheckPointIndex)
-    {
-        if (nextCheckPoint == hitCheckPointIndex)
-        {
-            if (nextCheckPoint == 0)
-            {
-                LapCompleted();
-            }
-            nextCheckPoint++;
-
-            if (nextCheckPoint == RaceManager.instance.checkPointsCount)
-            {
-                nextCheckPoint = 0;
-            }
-        }
-    }
-
-    void LapCompleted()
-    {
-        currentLap++;
-        if (currentLapTime < bestLapTime && currentLap > 1)
-        {
-            bestLapTime = currentLapTime;
-        }
-        UIManager.instance.SetLapCounter(currentLap);
-
-        if (bestLapTime != float.PositiveInfinity)
-        {
-            UIManager.instance.SetLapTime(bestLapTime, isCurrentLap: false);
-        }
-        currentLapTime = 0f;
     }
 }
