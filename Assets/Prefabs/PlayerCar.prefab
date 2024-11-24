@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9198413244800664329}
   - component: {fileID: 8246109708300787794}
   m_Layer: 0
-  m_Name: Car
+  m_Name: PlayerCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,11 +80,13 @@ MonoBehaviour:
   maxEnginePitch: 2
   skidSound: {fileID: 2383925129002043058}
   skidSoundFadeSpeed: 10
-  skidThreshold: 0.7
+  skidThreshold: 0.8
   isComp: 0
-  compPointRange: 5
-  compPointVariance: 3
+  compPointRange: 10
+  compPointVariance: 2
   compMaxTurnAngle: 30
+  compAcceleration: 1
+  compSpeedInputWhileTurning: 0.9
   targetPointIndex: 0
 --- !u!81 &8246109708300787794
 AudioListener:

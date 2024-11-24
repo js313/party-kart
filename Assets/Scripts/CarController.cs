@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    [SerializeField]
-    float maxSpeed;
-    // Getter
-    public float MaxSpeed => maxSpeed;
+    public float maxSpeed;
     [SerializeField]
     Rigidbody rb;
     // Getter
@@ -71,11 +68,14 @@ public class CarController : MonoBehaviour
     int targetPointIndex = 0;
     Vector3 targetPoint;
 
+    float resetCoolDownTimer = 3f, resetCooldown = 3f;
+
     void Start()
     {
-        currentLap = 0;
+        currentLap = 1;
         nextCheckPoint = 0;
         rb.transform.parent = null;
+
         if (isComp)
         {
             compSpeedInput = 1f;
@@ -136,6 +136,8 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
+        if (RaceManager.instance.isStarting) return;
+
         currentLapTime += Time.deltaTime;
 
         if (!isComp)
@@ -153,6 +155,25 @@ public class CarController : MonoBehaviour
             }
 
             turnInput = Input.GetAxis("Horizontal");
+
+
+            if (resetCoolDownTimer >= 0) resetCoolDownTimer -= Time.deltaTime;
+
+            if (resetCoolDownTimer <= 0 && Input.GetKeyDown(KeyCode.R))
+            {
+                verticalInput = 0;
+                turnInput = 0;
+                rb.velocity = Vector3.zero;
+
+                int checkPointCount = RaceManager.instance.checkPointsCount;
+
+                rb.gameObject.SetActive(false);
+                // FixedUpdate will bring the car visuals to this position
+                rb.transform.position = RaceManager.instance.GetCheckPointPosition((nextCheckPoint - 1 + checkPointCount) % checkPointCount);
+                rb.gameObject.SetActive(true);
+
+                resetCoolDownTimer = resetCooldown;
+            }
         }
         else
         {
@@ -192,15 +213,12 @@ public class CarController : MonoBehaviour
     {
         if (nextCheckPoint == hitCheckPointIndex)
         {
-            if (nextCheckPoint == 0)
-            {
-                LapCompleted();
-            }
             nextCheckPoint++;
 
             if (nextCheckPoint == RaceManager.instance.checkPointsCount)
             {
                 nextCheckPoint = 0;
+                LapCompleted();
             }
 
             if (isComp)
@@ -214,6 +232,15 @@ public class CarController : MonoBehaviour
     {
         targetPointIndex = (targetPointIndex + 1) % RaceManager.instance.checkPointsCount;
         targetPoint = RandomiseTarget(RaceManager.instance.GetCheckPointPosition(targetPointIndex), compPointVariance);
+    }
+
+    public int GetNextCheckPoint()
+    {
+        return nextCheckPoint;
+    }
+    public int GetLap()
+    {
+        return currentLap;
     }
 
     Vector3 RandomiseTarget(Vector3 point, float targetVariance)

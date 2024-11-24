@@ -7,7 +7,9 @@ using System;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text lapCounterDisplay, lapTimeDisplay, bestLapTimeDisplay;
+    TMP_Text lapCounterDisplay, lapTimeDisplay, bestLapTimeDisplay, positionDisplay, countDownDisplay;
+    [SerializeField]
+    float countDownDisappearAfter = 1f;
 
     public static UIManager instance;
 
@@ -36,5 +38,30 @@ public class UIManager : MonoBehaviour
         {
             bestLapTimeDisplay.text = formattedTimeString;
         }
+    }
+
+    public void SetPosition(int position)
+    {
+        positionDisplay.text = position + "/" + (RaceManager.instance.CompCarsCount + 1);
+    }
+
+    public void SetCountDown(int time)
+    {
+        if (time == 0)
+        {
+            countDownDisplay.text = "GO!";
+            StartCoroutine(Disappear());
+
+        }
+        else
+        {
+            countDownDisplay.text = time.ToString();
+        }
+    }
+
+    IEnumerator Disappear()
+    {
+        yield return new WaitForSeconds(countDownDisappearAfter);
+        countDownDisplay.enabled = false;
     }
 }

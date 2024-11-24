@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        activeDistance = Mathf.Lerp(minDistance, maxDistance, car.Rb.velocity.magnitude / car.MaxSpeed);
+        activeDistance = Mathf.Lerp(minDistance, maxDistance, car.Rb.velocity.magnitude / car.maxSpeed);
         transform.position = car.transform.position + offset.normalized * activeDistance;
     }
 }
