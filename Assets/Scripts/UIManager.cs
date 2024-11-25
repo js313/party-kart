@@ -11,6 +11,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     float countDownDisappearAfter = 1f;
 
+    [SerializeField]
+    GameObject raceFinishedBG;
+    [SerializeField]
+    TMP_Text raceFinishedPosition;
+
     public static UIManager instance;
 
     void Awake()
@@ -19,6 +24,11 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
         }
+    }
+
+    private void Start()
+    {
+        raceFinishedBG.SetActive(false);
     }
 
     public void SetLapCounter(int lap)
@@ -57,6 +67,25 @@ public class UIManager : MonoBehaviour
         {
             countDownDisplay.text = time.ToString();
         }
+    }
+
+    public void ShowRaceFinished(int playerPosition)
+    {
+        // Switch expression
+        string positionSuffix = playerPosition switch
+        {
+            1 => "st",
+            2 => "nd",
+            3 => "rd",
+            _ => "th",
+        };
+        raceFinishedPosition.text = "You Finished " + playerPosition + positionSuffix + "!";
+        raceFinishedBG.SetActive(true);
+    }
+
+    public void ExitRace(string sceneName)
+    {
+        RaceManager.instance.LoadScene(sceneName);
     }
 
     IEnumerator Disappear()

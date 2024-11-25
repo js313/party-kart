@@ -70,15 +70,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9198413244800664329, guid: 2910a882a4770e041ba37ba801d95aeb, type: 3}
       propertyPath: compMaxTurnAngle
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9198413244800664329, guid: 2910a882a4770e041ba37ba801d95aeb, type: 3}
       propertyPath: compPointVariance
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9198413244800664329, guid: 2910a882a4770e041ba37ba801d95aeb, type: 3}
       propertyPath: compSpeedInputWhileTurning
-      value: 0.85
+      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 8974970502948845472}
     - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
       propertyPath: compMaxTurnAngle
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
       propertyPath: compPointVariance

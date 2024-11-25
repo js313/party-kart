@@ -256,11 +256,22 @@ public class CarController : MonoBehaviour
         {
             bestLapTime = currentLapTime;
         }
-        if (!isComp) UIManager.instance.SetLapCounter(currentLap);
-
-        if (!isComp && bestLapTime != float.PositiveInfinity)
+        if (!isComp)
         {
-            UIManager.instance.SetLapTime(bestLapTime, isCurrentLap: false);
+            UIManager.instance.SetLapCounter(currentLap);
+
+            if (bestLapTime != float.PositiveInfinity)
+            {
+                UIManager.instance.SetLapTime(bestLapTime, isCurrentLap: false);
+            }
+
+            if (currentLap > RaceManager.instance.totalLaps)
+            {
+                targetPointIndex = nextCheckPoint;
+                targetPoint = RandomiseTarget(RaceManager.instance.GetCheckPointPosition(targetPointIndex), compPointVariance);
+                isComp = true;
+                RaceManager.instance.FinishRace();
+            }
         }
         currentLapTime = 0f;
     }

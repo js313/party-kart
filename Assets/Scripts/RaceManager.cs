@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RaceManager : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class RaceManager : MonoBehaviour
     CarController playerCar;
 
     [SerializeField]
-    float playerDefaultSpeed, rubberBandSpeedMod = 2f, rubberBandAcceleration = 0.05f;
+    float rubberBandSpeedMod = 2f, rubberBandAcceleration = 0.5f;
+    float playerDefaultSpeed;
 
     readonly float positionCheckTime = 0.3f;
     float positionCheckTimeNow = 0.0f;
@@ -41,6 +43,8 @@ public class RaceManager : MonoBehaviour
     CarController[] instantiableCompCars;
     [SerializeField]
     int carsToSpawn;
+
+    public bool raceFinished = false;
 
     private void Awake()
     {
@@ -158,6 +162,17 @@ public class RaceManager : MonoBehaviour
     public Vector3 GetCheckPointPosition(int index)
     {
         return checkPoints[index].transform.position;
+    }
+
+    public void FinishRace()
+    {
+        raceFinished = true;
+        UIManager.instance.ShowRaceFinished(playerPosition);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     void Shuffle<T>(T[] array)

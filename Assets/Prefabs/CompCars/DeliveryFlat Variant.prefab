@@ -16,6 +16,14 @@ PrefabInstance:
       propertyPath: rightFrontWheel
       value: 
       objectReference: {fileID: 3288620375134200056}
+    - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
+      propertyPath: compMaxTurnAngle
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
+      propertyPath: compSpeedInputWhileTurning
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 5162314956916736210, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
       propertyPath: m_Name
       value: DeliveryFlat Variant
