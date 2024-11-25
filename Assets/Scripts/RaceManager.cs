@@ -14,7 +14,6 @@ public class RaceManager : MonoBehaviour
 
     public static RaceManager instance;
 
-    [SerializeField]
     List<CarController> allCompCars;
     List<float> compCarsMaxSpeed;
     public int CompCarsCount { get; private set; }
@@ -23,7 +22,7 @@ public class RaceManager : MonoBehaviour
     CarController playerCar;
 
     [SerializeField]
-    float playerDefaultSpeed, rubberBandSpeedMod = 2f, rubberBandAcceleration = 0.01f;
+    float playerDefaultSpeed, rubberBandSpeedMod = 2f, rubberBandAcceleration = 0.05f;
 
     readonly float positionCheckTime = 0.3f;
     float positionCheckTimeNow = 0.0f;
@@ -32,13 +31,20 @@ public class RaceManager : MonoBehaviour
     int playerPosition = 1;
 
     public bool isStarting = true;
-    float timeBetweenCounts = 1f, timeLeft = 0f;
+    private readonly float timeBetweenCounts = 1f;
+    private float timeLeft = 0f;
     int startCounter = 3;
+
+    [SerializeField]
+    Transform[] startingPoints;
+    [SerializeField]
+    CarController[] instantiableCompCars;
+    [SerializeField]
+    int carsToSpawn;
 
     private void Awake()
     {
         checkPointsCount = checkPoints.Length;
-        CompCarsCount = allCompCars.Count;
         playerDefaultSpeed = playerCar.maxSpeed;
 
         if (!instance)
@@ -53,6 +59,27 @@ public class RaceManager : MonoBehaviour
         {
             checkPoints[i].CheckPointIndex = i;
         }
+        Shuffle<Transform>(startingPoints);
+        Shuffle<CarController>(instantiableCompCars);
+        allCompCars = new List<CarController>();
+
+        for (int i = 0; i < carsToSpawn + 1 && i < startingPoints.Length && i < instantiableCompCars.Length; i++)
+        {
+            if (i == 0)
+            {
+                playerCar.transform.position = startingPoints[i].position;
+                playerCar.Rb.position = startingPoints[i].position;
+                continue;
+            }
+
+            CarController compCarInstance = Instantiate(instantiableCompCars[i]);
+
+            allCompCars.Add(compCarInstance);
+            compCarInstance.transform.position = startingPoints[i].position;
+            compCarInstance.Rb.position = startingPoints[i].position;
+        }
+        CompCarsCount = allCompCars.Count;
+
         compCarsMaxSpeed = new List<float>();
         foreach (CarController compCar in allCompCars)
         {
@@ -131,5 +158,16 @@ public class RaceManager : MonoBehaviour
     public Vector3 GetCheckPointPosition(int index)
     {
         return checkPoints[index].transform.position;
+    }
+
+    void Shuffle<T>(T[] array)
+    {
+        System.Random rng = new System.Random();
+        int n = array.Length;
+        while (n > 1)
+        {
+            int k = rng.Next(n--);
+            (array[k], array[n]) = (array[n], array[k]);
+        }
     }
 }

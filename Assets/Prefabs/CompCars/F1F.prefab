@@ -86,7 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
       propertyPath: maxSpeed
-      value: 60
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
+      propertyPath: compPointRange
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
       propertyPath: leftFrontWheel
@@ -96,6 +100,14 @@ PrefabInstance:
       propertyPath: rightFrontWheel
       value: 
       objectReference: {fileID: 5976122489652841379}
+    - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
+      propertyPath: compMaxTurnAngle
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
+      propertyPath: compPointVariance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
       propertyPath: compSpeedInputWhileTurning
       value: 0.9

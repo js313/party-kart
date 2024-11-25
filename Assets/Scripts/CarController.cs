@@ -221,9 +221,9 @@ public class CarController : MonoBehaviour
                 LapCompleted();
             }
 
-            if (isComp)
+            if (isComp && hitCheckPointIndex == targetPointIndex)
             {
-                //TargetReached();    // Cars running into obstacles, so turned it off for now
+                TargetReached();
             }
         }
     }
