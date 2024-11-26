@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,6 @@ public class RaceManager : MonoBehaviour
     List<float> compCarsMaxSpeed;
     public int CompCarsCount { get; private set; }
 
-    [SerializeField]
     CarController playerCar;
 
     [SerializeField]
@@ -41,15 +41,18 @@ public class RaceManager : MonoBehaviour
     Transform[] startingPoints;
     [SerializeField]
     CarController[] instantiableCompCars;
-    [SerializeField]
     int carsToSpawn;
+
+    [SerializeField]
+    CameraController cameraController;
+    [SerializeField]
+    CinemachineVirtualCamera followCamera;
 
     public bool raceFinished = false;
 
     private void Awake()
     {
         checkPointsCount = checkPoints.Length;
-        playerDefaultSpeed = playerCar.maxSpeed;
 
         if (!instance)
         {
@@ -59,6 +62,8 @@ public class RaceManager : MonoBehaviour
 
     void Start()
     {
+        InitializeInfoFromManager();
+
         for (int i = 0; i < checkPoints.Length; i++)
         {
             checkPoints[i].CheckPointIndex = i;
@@ -91,6 +96,22 @@ public class RaceManager : MonoBehaviour
         }
     }
 
+    void InitializeInfoFromManager()
+    {
+        playerCar = Instantiate(RaceInfoManager.instance.racerToUse);
+        playerCar.GetComponent<AudioListener>().enabled = true;
+        playerCar.isComp = false;
+        playerDefaultSpeed = RaceInfoManager.instance.playerDefaultSpeed;
+        playerCar.turnStrength = RaceInfoManager.instance.playerTurnStrength;
+        cameraController.car = playerCar;
+        followCamera.m_LookAt = playerCar.transform;
+        followCamera.m_Follow = playerCar.transform;
+
+        totalLaps = RaceInfoManager.instance.noOfLaps;
+
+        carsToSpawn = RaceInfoManager.instance.noOfCompCars;
+    }
+
     private void Update()
     {
         if (isStarting) timeLeft -= Time.deltaTime;
@@ -114,14 +135,17 @@ public class RaceManager : MonoBehaviour
             {
                 if (compCar.GetLap() > playerCar.GetLap())
                 {
+                    print("a");
                     playerPosition++;
                 }
                 else if (compCar.GetLap() == playerCar.GetLap() && compCar.GetNextCheckPoint() > playerCar.GetNextCheckPoint())
                 {
+                    print("b");
                     playerPosition++;
                 }
                 else if (compCar.GetLap() == playerCar.GetLap() && compCar.GetNextCheckPoint() == playerCar.GetNextCheckPoint())
                 {
+                    print("c");
                     float compCarDistToNextCheckPoint = Vector3.SqrMagnitude(compCar.transform.position - checkPoints[compCar.GetNextCheckPoint()].transform.position);
                     float playerCarDistToNextCheckPoint = Vector3.SqrMagnitude(playerCar.transform.position - checkPoints[playerCar.GetNextCheckPoint()].transform.position);
                     if (compCarDistToNextCheckPoint < playerCarDistToNextCheckPoint)

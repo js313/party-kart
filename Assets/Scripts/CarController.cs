@@ -13,8 +13,7 @@ public class CarController : MonoBehaviour
 
     [SerializeField]
     float forwardAcceleration, reverseAcceleration;
-    [SerializeField]
-    float turnStrength;
+    public float turnStrength;
     [SerializeField]
     float dragOnGround, dragInAir;
     [SerializeField]
@@ -56,8 +55,7 @@ public class CarController : MonoBehaviour
     int nextCheckPoint, currentLap;
     float currentLapTime = 0f, bestLapTime = float.PositiveInfinity;
 
-    [SerializeField]
-    bool isComp;
+    public bool isComp;
     [SerializeField]
     float compPointRange = 5f, compPointVariance = 1f;
     [SerializeField]
@@ -238,6 +236,7 @@ public class CarController : MonoBehaviour
     {
         return nextCheckPoint;
     }
+    
     public int GetLap()
     {
         return currentLap;

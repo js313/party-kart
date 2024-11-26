@@ -84,7 +84,7 @@ MonoBehaviour:
   isComp: 0
   compPointRange: 10
   compPointVariance: 2
-  compMaxTurnAngle: 30
+  compMaxTurnAngle: 20
   compAcceleration: 1
   compSpeedInputWhileTurning: 0.9
   targetPointIndex: 0

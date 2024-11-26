@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField]
-    CarController car;
+    public CarController car;
     Vector3 offset;
 
     [SerializeField]

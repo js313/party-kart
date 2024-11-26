@@ -13,6 +13,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
+      propertyPath: turnStrength
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
       propertyPath: compPointRange
       value: 5
       objectReference: {fileID: 0}
@@ -25,8 +29,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9129273368021060666}
     - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
+      propertyPath: compAcceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
       propertyPath: compMaxTurnAngle
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
       propertyPath: compPointVariance

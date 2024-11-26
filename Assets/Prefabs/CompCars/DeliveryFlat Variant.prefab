@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
+      propertyPath: maxSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
+      propertyPath: turnStrength
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
       propertyPath: leftFrontWheel
       value: 
       objectReference: {fileID: 2600033887022362950}
@@ -17,8 +25,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3288620375134200056}
     - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
+      propertyPath: compAcceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
       propertyPath: compMaxTurnAngle
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4484774255895809484, guid: e6aa0b3012bf86c4dbb5db3215cbdb1a, type: 3}
       propertyPath: compSpeedInputWhileTurning
