@@ -11,6 +11,8 @@ public class RaceInfoManager : MonoBehaviour
     public int noOfCompCars, noOfLaps;
     public float playerDefaultSpeed, playerTurnStrength;
 
+    public Sprite selectedTrackImage, selectedRacerImage;
+
     void Awake()
     {
         if (instance == null)

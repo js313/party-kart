@@ -94,6 +94,8 @@ public class RaceManager : MonoBehaviour
         {
             compCarsMaxSpeed.Add(compCar.maxSpeed);
         }
+
+        UIManager.instance.SetLapCounter(1);
     }
 
     void InitializeInfoFromManager()
@@ -135,17 +137,14 @@ public class RaceManager : MonoBehaviour
             {
                 if (compCar.GetLap() > playerCar.GetLap())
                 {
-                    print("a");
                     playerPosition++;
                 }
                 else if (compCar.GetLap() == playerCar.GetLap() && compCar.GetNextCheckPoint() > playerCar.GetNextCheckPoint())
                 {
-                    print("b");
                     playerPosition++;
                 }
                 else if (compCar.GetLap() == playerCar.GetLap() && compCar.GetNextCheckPoint() == playerCar.GetNextCheckPoint())
                 {
-                    print("c");
                     float compCarDistToNextCheckPoint = Vector3.SqrMagnitude(compCar.transform.position - checkPoints[compCar.GetNextCheckPoint()].transform.position);
                     float playerCarDistToNextCheckPoint = Vector3.SqrMagnitude(playerCar.transform.position - checkPoints[playerCar.GetNextCheckPoint()].transform.position);
                     if (compCarDistToNextCheckPoint < playerCarDistToNextCheckPoint)

@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackToLoad: Track1
-  racerToUse: {fileID: 6040292714379632196, guid: 3a8812b4fb102e947b8648b649114be7, type: 3}
+  racerToUse: {fileID: 2734703749298235836, guid: 50a3ea72529dc5944873797e20312237, type: 3}
   noOfCompCars: 7
-  noOfLaps: 3
+  noOfLaps: 1
   playerDefaultSpeed: 30
   playerTurnStrength: 180
+  selectedTrackImage: {fileID: 21300000, guid: 75901588e46f98e49b4131d86b2d491a, type: 3}
+  selectedRacerImage: {fileID: 21300000, guid: 3b7ccaca117794b4080bfc13d28078ae, type: 3}
