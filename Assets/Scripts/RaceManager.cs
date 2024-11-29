@@ -47,6 +47,8 @@ public class RaceManager : MonoBehaviour
     CameraController cameraController;
     [SerializeField]
     CinemachineVirtualCamera followCamera;
+    [SerializeField]
+    string nextTrack;
 
     public bool raceFinished = false;
 
@@ -190,7 +192,11 @@ public class RaceManager : MonoBehaviour
     public void FinishRace()
     {
         raceFinished = true;
-        UIManager.instance.ShowRaceFinished(playerPosition);
+        UIManager.instance.ShowRaceFinished(playerPosition, playerPosition == 1);
+        if(playerPosition == 1)
+        {
+            RaceInfoManager.instance.UnlockTrack(nextTrack);
+        }
     }
 
     public void LoadScene(string sceneName)

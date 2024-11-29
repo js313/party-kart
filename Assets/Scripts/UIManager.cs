@@ -7,7 +7,7 @@ using System;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text lapCounterDisplay, lapTimeDisplay, bestLapTimeDisplay, positionDisplay, countDownDisplay;
+    TMP_Text lapCounterDisplay, lapTimeDisplay, bestLapTimeDisplay, positionDisplay, countDownDisplay, levelUnlocked;
     [SerializeField]
     float countDownDisappearAfter = 1f;
 
@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowRaceFinished(int playerPosition)
+    public void ShowRaceFinished(int playerPosition, bool trackUnlocked)
     {
         // Switch expression
         string positionSuffix = playerPosition switch
@@ -80,6 +80,7 @@ public class UIManager : MonoBehaviour
             _ => "th",
         };
         raceFinishedPosition.text = "You Finished " + playerPosition + positionSuffix + "!";
+        levelUnlocked.enabled = trackUnlocked;
         raceFinishedBG.SetActive(true);
     }
 

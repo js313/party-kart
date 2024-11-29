@@ -11267,6 +11267,7 @@ MonoBehaviour:
   - {fileID: 580723151452620054, guid: c51b86f6f165f39418f18c5857f80743, type: 3}
   cameraController: {fileID: 1717662475}
   followCamera: {fileID: 1291315396}
+  nextTrack: Track2
   raceFinished: 0
 --- !u!4 &1946762351 stripped
 Transform:
@@ -12182,6 +12183,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4076204365794033428, guid: 087028eb5ae6ff142941c8924b2897c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948817676314639648, guid: 087028eb5ae6ff142941c8924b2897c1, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -16958,6 +16958,7 @@ MonoBehaviour:
   - {fileID: 580723151452620054, guid: c51b86f6f165f39418f18c5857f80743, type: 3}
   cameraController: {fileID: 263471259}
   followCamera: {fileID: 506826571}
+  nextTrack: Track3
   raceFinished: 0
 --- !u!1 &1981405889
 GameObject:
